@@ -26,8 +26,9 @@ def plot_divided_square(prob_matrix):
   rows, cols = prob_matrix.shape
 
   # Genera una visualización de la matriz usando una escala de color azul
+  plt.figure(figsize = (4,4))
   plt.imshow(prob_matrix, cmap='Blues', extent=(0, cols, 0, rows), origin='lower')
-  plt.colorbar(label='Probability')  # Agrega una barra de color para interpretar la escala de probabilidad
+  plt.colorbar(fraction=0.035, pad=0.04,label='Probability')
   
   # Configuración de ejes y cuadrícula
   plt.xticks(np.arange(1, cols, 1), [])  # Oculta etiquetas de ticks en el eje x
