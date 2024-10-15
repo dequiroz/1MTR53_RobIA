@@ -1,19 +1,42 @@
 import numpy as np
 
+# Mapa de prueba del mundo, presentando los movimientos validos donde:
+# 'B' representa hacia atras,
+# 'L' representa hacia izquierda,
+# 'F' representa hacia frente,
+# 'R' representa hacia derecha.
 test_world = [['B','B','L','L','B'],
-         ['B','B','F','F','B'],
-         ['B','B','F','F','B'],
-         ['B','B','R','R','B']]
+              ['B','B','F','F','B'],
+              ['B','B','F','F','B'],
+              ['B','B','R','R','B']]
 
 def show(p):
+    """        
+    Muestra una distribución de probabilidad bidimensional en formato legible.
+    
+    Args:
+        p (list): Matriz 2D de probabilidades.
+    """
     rows = ['[' + ','.join(map(lambda x: '{0:.4f}'.format(x),r)) + ']' for r in p]
     print('[' + ',\n '.join(rows) + ']')
 
 def uniform_distribution_2D(world):
+  """
+  Genera una distribución uniforme en una matriz 2D del mismo tamaño que el mundo.
+
+  Args:
+    world (list): Matriz 2D representando el entorno.
+   
+  Returns:
+    list: Distribución uniforme de probabilidades en cada celda.
+  """
   value = 1/np.size(world)
   return [[value for _ in row] for row in world]
 
 class bcolors:
+    """
+    Clase para definir colores en la terminal para resaltar texto.
+    """
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
     OKCYAN = '\033[96m'
@@ -25,6 +48,15 @@ class bcolors:
     UNDERLINE = '\033[4m'
 
 def validar_respuesta(caso, p, esperado, message=''):
+  """
+  Valida la respuesta generada comparándola con una respuesta esperada.
+
+  Args:
+    caso (int): Número del caso de prueba.
+    p (list): Distribución de probabilidad obtenida.
+    esperado (list): Distribución de probabilidad esperada.
+    message (str): Mensaje opcional con detalles de la prueba.
+  """
   try:
     p = [[round(val,4) for val in row] for row in p]
     assert p==esperado
@@ -33,12 +65,19 @@ def validar_respuesta(caso, p, esperado, message=''):
   except AssertionError:
     print(f'Caso {caso}: {bcolors.FAIL}Error{bcolors.ENDC} ({message})')
     print(f'{bcolors.UNDERLINE}Se obtuvo el resultado{bcolors.ENDC}')
-    {show(p)}
+    show(p)
     print(f'{bcolors.UNDERLINE}se esperaba obtener{bcolors.ENDC}')
     show(esperado)
     print('')
 
 def validar_pregunta1(sense):
+  """
+  Ejecuta pruebas unitarias para la función 'sense', verificando el ajuste de probabilidades 
+  según las mediciones y la fiabilidad del sensor.
+
+  Args:
+    sense (function): Función de detección que ajusta probabilidades.
+  """
   print(f'{bcolors.UNDERLINE}\nProbando función sense desarrollada{bcolors.ENDC}')
   p = uniform_distribution_2D(test_world)
   # Se define el vector de mediciones y movimientos
@@ -61,6 +100,13 @@ def validar_pregunta1(sense):
     validar_respuesta(i+1, test, esperado, message=f'Sense: {measurement} | sensor_right: {sensor_right}')
 
 def validar_pregunta2(move):
+  """
+  Ejecuta pruebas unitarias para la función 'move', verificando los cambios en 
+  la distribución de probabilidad según los movimientos en el entorno.
+
+  Args:
+    move (function): Función de movimiento que ajusta probabilidades.
+  """
   print(f'{bcolors.UNDERLINE}\nProbando función move desarrollada{bcolors.ENDC}')
   # Se define el vector de mediciones y movimientos
   #  [0,0] - stay
@@ -102,6 +148,13 @@ def validar_pregunta2(move):
     validar_respuesta(i+1, p, esperado, message=f'input={motions} | p_move={p_move}')
 
 def validar_pregunta3(localize):
+  """
+  Ejecuta pruebas unitarias para la función 'localize', evaluando la precisión en
+  la localización basada en secuencias de mediciones y movimientos.
+
+  Args:
+    localize (function): Función de localización.
+  """
   print(f'{bcolors.UNDERLINE}\nProbando función move desarrollada{bcolors.ENDC}')
   mediciones_casos = [['B','B','F','F','B'],
                       ['B','B','B','L','L'],
