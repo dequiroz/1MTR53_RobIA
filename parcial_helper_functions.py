@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 # Mapa de prueba del mundo, presentando los movimientos validos donde:
 # 'B' representa hacia atras,
@@ -9,6 +10,42 @@ test_world = [['B','B','L','L','B'],
               ['B','B','F','F','B'],
               ['B','B','F','F','B'],
               ['B','B','R','R','B']]
+
+def plot_divided_square(prob_matrix):
+  """
+  Genera una representación visual de una matriz cuadrada dividida, donde cada celda representa
+  una probabilidad especificada en 'prob_matrix'. Muestra los valores de probabilidad en cada 
+  celda y ajusta el color en función del valor de probabilidad.
+
+  Parámetros:
+    prob_matrix (list or np.array): Matriz de probabilidades a visualizar. Los valores deben estar
+              entre 0 y 1, donde cada valor representa la probabilidad de la celda correspondiente.
+  """
+  # Convertir prob_matrix a numpy array para asegurar compatibilidad con operaciones numpy
+  prob_matrix = np.array(prob_matrix)
+  rows, cols = prob_matrix.shape
+
+  # Genera una visualización de la matriz usando una escala de color azul
+  plt.imshow(prob_matrix, cmap='Blues', extent=(0, cols, 0, rows), origin='lower')
+  plt.colorbar(label='Probability')  # Agrega una barra de color para interpretar la escala de probabilidad
+  
+  # Configuración de ejes y cuadrícula
+  plt.xticks(np.arange(1, cols, 1), [])  # Oculta etiquetas de ticks en el eje x
+  plt.yticks(np.arange(1, rows, 1), [])  # Oculta etiquetas de ticks en el eje y
+  plt.grid(True, linewidth=1, color='black')  # Dibuja una cuadrícula con líneas negras
+
+  # Invertir el eje y para que la coordenada (0,0) esté en la esquina inferior izquierda
+  plt.gca().invert_yaxis()
+  # Ajusta la relación de aspecto para que las celdas sean cuadradas
+  plt.gca().set_aspect('equal', adjustable='box')
+
+  # Añade el valor de probabilidad en cada celda de la matriz
+  for i in range(rows):
+    for j in range(cols):
+      plt.text(j + 0.5, i + 0.5, f'{prob_matrix[i, j]:.2f}',
+               ha='center', va='center', color='black')
+
+  plt.show()  # Muestra la gráfica
 
 def show(p):
     """        
