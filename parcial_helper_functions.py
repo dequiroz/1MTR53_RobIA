@@ -1,5 +1,10 @@
 import numpy as np
 
+world = [['B','B','L','L','B'],
+         ['B','B','F','F','B'],
+         ['B','B','F','F','B'],
+         ['B','B','R','R','B']]
+
 def show(p):
     rows = ['[' + ','.join(map(lambda x: '{0:.4f}'.format(x),r)) + ']' for r in p]
     print('[' + ',\n '.join(rows) + ']')
