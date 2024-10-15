@@ -1,6 +1,6 @@
 import numpy as np
 
-world = [['B','B','L','L','B'],
+test_world = [['B','B','L','L','B'],
          ['B','B','F','F','B'],
          ['B','B','F','F','B'],
          ['B','B','R','R','B']]
@@ -40,7 +40,7 @@ def validar_respuesta(caso, p, esperado, message=''):
 
 def validar_pregunta1(sense):
   print(f'{bcolors.UNDERLINE}\nProbando función sense desarrollada{bcolors.ENDC}')
-  p = uniform_distribution_2D(world)
+  p = uniform_distribution_2D(test_world)
   # Se define el vector de mediciones y movimientos
   measurements = ['B','L','F','R','B','L','F','R']
   # Se definen los resultados esperados para cada caso de prueba
@@ -57,7 +57,7 @@ def validar_pregunta1(sense):
   for i, (measurement, esperado) in enumerate(zip(measurements, esperados)):
     sensor_right = 0.7 if i<4 else 0.8
     sensor_wrong = 1 - sensor_right
-    test = sense(p, world, measurement, sensor_right, sensor_wrong)
+    test = sense(p, test_world, measurement, sensor_right, sensor_wrong)
     validar_respuesta(i+1, test, esperado, message=f'Sense: {measurement} | sensor_right: {sensor_right}')
 
 def validar_pregunta2(move):
@@ -138,5 +138,5 @@ def validar_pregunta3(localize):
     else:
       sensor_right = 0.8
       p_move = 0.7
-    p = localize(mundo, mediciones, movimientos, sensor_right, p_move)
+    p = localize(test_world, mediciones, movimientos, sensor_right, p_move)
     validar_respuesta(i+1, p, esperado, message=f'input=> mediciones:{mediciones} | movimientos:{movimientos} | sensor_right:{sensor_right} | p_move:{p_move}')
